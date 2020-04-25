@@ -1,30 +1,63 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
 import Navbar from "./components/Navbar";
-import Post from "./components/Post";
 import "./css/style.css";
+import "./css/animate.css";
+import "./css/flaticon.css";
+import "./css/icomoon.css";
+import "./css/ionicons.min.css";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 function App() {
+  const elRef = React.useRef();
+  React.useEffect(() => {
+    setTimeout(function () {
+      elRef.current.classList.remove("show");
+    }, 20);
+  }, []);
+
   return (
-    <div>
+    <BrowserRouter>
       <Navbar />
-      <div id="colorlib-main">
-        <section class="ftco-section ftco-no-pt ftco-no-pb">
-          <div class="container">
-            <div class="row d-flex">
-              <div class="col-xl-8 py-5 px-md-5">
-                <div class="row pt-md-4">
-                  <div class="col-md-12">
-                    <Post />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+      <div id="colorlib-page">
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/contact">
+            <Contact />
+          </Route>
+          <Route exact path="/">
+            <Home />
+          </Route>
+        </Switch>
       </div>
-    </div>
+      <div id="ftco-loader" class="show fullscreen" ref={elRef}>
+        <svg class="circular" width="48px" height="48px">
+          <circle
+            class="path-bg"
+            cx="24"
+            cy="24"
+            r="22"
+            fill="none"
+            stroke-width="4"
+            stroke="#eeeeee"
+          />
+          <circle
+            class="path"
+            cx="24"
+            cy="24"
+            r="22"
+            fill="none"
+            stroke-width="4"
+            stroke-miterlimit="10"
+            stroke="#F96D00"
+          />
+        </svg>
+      </div>
+    </BrowserRouter>
   );
 }
 

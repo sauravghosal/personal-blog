@@ -1,69 +1,55 @@
 import React from "react";
-import "../css/style.css";
-import "../css/flaticon.css";
-import "../css/icomoon.css";
-import "../css/ionicons.min.css";
+import navImg from "../images/bg_1.jpg";
+import { Link } from "react-router-dom";
 
 const Navbar = (props) => {
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    if (document.body.classList.contains("offcanvas")) {
+      //   $this.removeClass("active");
+      document.body.classList.remove("offcanvas");
+    } else {
+      //   $this.addClass("active");
+      document.body.classList.add("offcanvas");
+    }
+  };
+
   return (
     <>
-      <a href="#" className="js-colorlib-nav-toggle colorlib-nav-toggle">
+      <a
+        className="js-colorlib-nav-toggle colorlib-nav-toggle"
+        onClick={handleClick}
+      >
         <i></i>
       </a>
       <aside id="colorlib-aside" role="complementary" className="js-fullheight">
         <nav id="colorlib-main-menu" role="navigation">
           <ul>
             <li className="colorlib-active">
-              <a href="index.html">Home</a>
+              <Link to="/">
+                <a>Home</a>
+              </Link>
             </li>
             <li>
-              <a href="fashion.html">Fashion</a>
+              <Link to="/about">
+                <a>About</a>
+              </Link>
             </li>
             <li>
-              <a href="travel.html">Travel</a>
-            </li>
-            <li>
-              <a href="about.html">About</a>
-            </li>
-            <li>
-              <a href="contact.html">Contact</a>
+              <Link to="/contact">
+                <a>Contact</a>
+              </Link>
             </li>
           </ul>
         </nav>
 
         <div className="colorlib-footer">
           <h1 id="colorlib-logo" className="mb-4">
-            <a
-              href="index.html"
-              style={{ backgroundImage: "url(../images/bg_1.jpg)" }}
-            >
+            <a href="index.html" style={{ backgroundImage: `url(${navImg})` }}>
               Saurav <span>Ghosal</span>
             </a>
           </h1>
-          <div className="mb-4">
-            <h3>Subscribe for newsletter</h3>
-            <form action="#" className="colorlib-subscribe-form">
-              <div className="form-group d-flex">
-                <div className="icon">
-                  <span className="icon-paper-plane"></span>
-                </div>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Email Address"
-                />
-              </div>
-            </form>
-          </div>
-          <p className="pfooter">
-            Copyright &copy;
-            <script>document.write(new Date().getFullYear());</script>
-            All rights reserved | This template is made with
-            <i className="icon-heart" aria-hidden="true"></i> by
-            <a href="https://colorlib.com" target="_blank">
-              Colorlib
-            </a>
-          </p>
         </div>
       </aside>
     </>

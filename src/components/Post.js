@@ -1,7 +1,4 @@
 import React from "react";
-import "../css/style.css";
-import "../css/animate.css";
-import postImage from "../images/image_1.jpg";
 
 const Post = (props) => {
   return (
@@ -10,31 +7,31 @@ const Post = (props) => {
         <a
           href="single.html"
           className="img img-2"
-          style={{ backgroundImage: `url(${postImage})` }}
+          style={{ backgroundImage: `url(${props.post.image})` }}
         ></a>
         <div className="text text-2 pl-md-4">
           <h3 className="mb-2">
-            <a href="single.html">A Loving Heart is the Truest Wisdom</a>
+            <a href="single.html">{props.post.title}</a>
           </h3>
           <div className="meta-wrap">
             <p className="meta">
               <span>
-                <i className="icon-calendar mr-2"></i>June 28, 2019
+                <i className="icon-calendar mr-2"></i>
+                {props.post.date}
               </span>
               <span>
                 <a href="single.html">
-                  <i className="icon-folder-o mr-2"></i>Travel
+                  <i className="icon-folder-o mr-2"></i>
+                  {props.post.category}
                 </a>
               </span>
               <span>
-                <i className="icon-comment2 mr-2"></i>5 Comment
+                <i className="icon-comment2 mr-2"></i>
+                {props.post.comments}
               </span>
             </p>
           </div>
-          <p className="mb-4">
-            A small river named Duden flows by their place and supplies it with
-            the necessary regelialia.
-          </p>
+          <p className="mb-4">{props.post.description}</p>
           <p>
             <a href="#" className="btn-custom">
               Read More
