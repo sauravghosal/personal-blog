@@ -1,20 +1,45 @@
 {
-  "name": "personal-blog",
+  "homepage": "http://sauravghosal.github.io/personal-website",
+  "name": "personal-website",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "aos": "^3.0.0-beta.6",
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.3.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "flickity": "^2.2.1",
+    "infinite-react-carousel": "^1.2.11",
+    "mdbreact": "^4.21.0",
+    "mongoose": "^5.7.4",
+    "nodemon": "^1.19.3",
+    "pure-react-carousel": "^1.24.1",
+    "react": "^16.10.0",
+    "react-animated-slider": "^2.0.0",
+    "react-axios": "^2.0.3",
+    "react-bootstrap": "^1.0.0-beta.14",
+    "react-dom": "^16.10.0",
+    "react-flickity-component": "^3.5.0",
+    "react-headroom": "^3.0.0",
+    "react-mdl": "^1.11.0",
+    "react-multi-carousel": "^2.5.5",
+    "react-perfect-scrollbar": "^1.5.8",
+    "react-router-dom": "^5.1.1",
+    "react-scripts": "^3.4.0",
+    "react-scroll": "^1.7.16",
+    "react-spring": "^8.0.27",
+    "react-use-gesture": "^7.0.14"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "gulp": "gulp"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,5 +55,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0",
+    "gulp": "^4.0.2",
+    "gulp-change": "^1.0.2",
+    "gulp-changed": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.2",
+    "node-sass": "^4.13.1",
+    "react-social-icons": "^4.1.0",
+    "sass-loader": "^8.0.2"
   }
 }
