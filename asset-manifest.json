@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/personal-blog/static/css/main.7a260570.chunk.css",
-    "main.js": "/personal-blog/static/js/main.c4eed9e5.chunk.js",
-    "main.js.map": "/personal-blog/static/js/main.c4eed9e5.chunk.js.map",
+    "main.css": "/personal-blog/static/css/main.44e7c6c8.chunk.css",
+    "main.js": "/personal-blog/static/js/main.ae53d2ab.chunk.js",
+    "main.js.map": "/personal-blog/static/js/main.ae53d2ab.chunk.js.map",
     "runtime-main.js": "/personal-blog/static/js/runtime-main.fd34d71a.js",
     "runtime-main.js.map": "/personal-blog/static/js/runtime-main.fd34d71a.js.map",
-    "static/js/2.81198a1f.chunk.js": "/personal-blog/static/js/2.81198a1f.chunk.js",
-    "static/js/2.81198a1f.chunk.js.map": "/personal-blog/static/js/2.81198a1f.chunk.js.map",
+    "static/js/2.faa02eb3.chunk.js": "/personal-blog/static/js/2.faa02eb3.chunk.js",
+    "static/js/2.faa02eb3.chunk.js.map": "/personal-blog/static/js/2.faa02eb3.chunk.js.map",
     "index.html": "/personal-blog/index.html",
-    "precache-manifest.05ba052643a82d8455d3d497e7586a91.js": "/personal-blog/precache-manifest.05ba052643a82d8455d3d497e7586a91.js",
+    "precache-manifest.56c1f742282ca257b4c0975b83c67c60.js": "/personal-blog/precache-manifest.56c1f742282ca257b4c0975b83c67c60.js",
     "service-worker.js": "/personal-blog/service-worker.js",
-    "static/css/main.7a260570.chunk.css.map": "/personal-blog/static/css/main.7a260570.chunk.css.map",
-    "static/js/2.81198a1f.chunk.js.LICENSE.txt": "/personal-blog/static/js/2.81198a1f.chunk.js.LICENSE.txt",
+    "static/css/main.44e7c6c8.chunk.css.map": "/personal-blog/static/css/main.44e7c6c8.chunk.css.map",
+    "static/js/2.faa02eb3.chunk.js.LICENSE.txt": "/personal-blog/static/js/2.faa02eb3.chunk.js.LICENSE.txt",
     "static/media/flaticon.css": "/personal-blog/static/media/Flaticon.f555879a.svg",
-    "static/media/about.jpg": "/personal-blog/static/media/about.a6f464c6.jpg",
+    "static/media/about.JPG": "/personal-blog/static/media/about.8f0c0d20.JPG",
     "static/media/bg_1.jpg": "/personal-blog/static/media/bg_1.0f100623.jpg",
     "static/media/icomoon.css": "/personal-blog/static/media/icomoon.e894ed50.woff",
     "static/media/image_1.jpg": "/personal-blog/static/media/image_1.55bfbdc0.jpg",
@@ -21,8 +21,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.fd34d71a.js",
-    "static/js/2.81198a1f.chunk.js",
-    "static/css/main.7a260570.chunk.css",
-    "static/js/main.c4eed9e5.chunk.js"
+    "static/js/2.faa02eb3.chunk.js",
+    "static/css/main.44e7c6c8.chunk.css",
+    "static/js/main.ae53d2ab.chunk.js"
   ]
 }
