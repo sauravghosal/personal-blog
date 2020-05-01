@@ -9,6 +9,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import SinglePost from "./pages/SinglePost";
 
 function App() {
   const elRef = React.useRef();
@@ -18,10 +19,12 @@ function App() {
     }, 20);
   }, []);
 
+  const post = React.useState({});
+
   return (
     <BrowserRouter>
       <Navbar />
-      <div id="colorlib-page">
+      <div id="colorlib-main">
         <Switch>
           <Route path="/about">
             <About />
@@ -32,6 +35,7 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
+          <Route path="/singlepost/:id" component={SinglePost}></Route>
         </Switch>
       </div>
       <div id="ftco-loader" class="show fullscreen" ref={elRef}>
