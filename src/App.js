@@ -10,59 +10,145 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import SinglePost from "./pages/SinglePost";
+import AddPost from "./pages/AddPost";
+import {
+  Stitch,
+  AnonymousCredential,
+  RemoteMongoClient,
+} from "mongodb-stitch-browser-sdk";
 
-function App() {
-  const elRef = React.useRef();
-  React.useEffect(() => {
-    setTimeout(function () {
-      elRef.current.classList.remove("show");
-    }, 20);
-  }, []);
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      comments: [],
+      posts: [],
+    };
 
-  const post = React.useState({});
+    this.addComment = this.addComment.bind(this);
+    this.displayPosts = this.displayPosts.bind(this);
+    this.displayPost = this.displayPost.bind(this);
+    this.addPost = this.addPost.bind(this);
+  }
 
-  return (
-    <BrowserRouter>
-      <Navbar />
-      <div id="colorlib-main">
+  componentDidMount() {
+    this.client = Stitch.initializeDefaultAppClient("blog-jcusl");
+    // Get a MongoDB Service Client
+    // This is used for logging in and communicating with Stitch
+    const mongodb = this.client.getServiceClient(
+      RemoteMongoClient.factory,
+      "mongodb-atlas"
+    );
+    // Get a reference to the todo database
+    this.db = mongodb.db("Blog");
+    this.displayPostsonLoad();
+  }
+
+  // displaying particular blog post
+  displayPost(id) {
+    // query the remote DB and update the component state
+    this.db
+      .collection("posts")
+      .find({}, { _id: id })
+      .asArray()
+      .then((post) => {
+        console.log(post);
+        return post;
+      });
+  }
+
+  // getting all blog posts and displaying snippets
+  displayPosts() {
+    // query the remote DB and update the component state
+    this.db
+      .collection("posts")
+      .find({}, { limit: 1000 })
+      .asArray()
+      .then((posts) => {
+        console.log(posts);
+        this.setState({ posts });
+      });
+  }
+
+  displayPostsonLoad() {
+    // Anonymously log in and display comments on load
+    this.client.auth
+      .loginWithCredential(new AnonymousCredential())
+      .then(this.displayPosts)
+      .catch(console.error);
+  }
+
+  async addPost(event) {
+    event.preventDefault();
+    event.persist();
+    let file = event.target.image.files[0];
+
+    // converting to base64
+    const toBase64 = (file) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+
+    const data = {
+      title: event.target.title.value,
+      author: event.target.author.value,
+      image: await toBase64(file),
+      description: event.target.description.value,
+      content: event.target.content.value,
+      date: new Date(),
+    };
+
+    // then re-query the DB and display the new todos
+    this.db
+      .collection("posts")
+      .insertOne({
+        ...data,
+        owner_id: this.client.auth.user.id,
+      })
+      .then(() => {
+        this.displayPosts();
+      })
+      .catch(console.error);
+  }
+
+  addComment() {
+    // Anonymously log in and display comments on load
+    this.client.auth
+      .loginWithCredential(new AnonymousCredential())
+      .then(this.displayComments)
+      .catch(console.error);
+  }
+
+  render() {
+    return (
+      <BrowserRouter>
+        <Navbar />
         <Switch>
-          <Route path="/about">
+          <Route path="/personal-blog/about">
             <About />
           </Route>
-          <Route path="/contact">
+          <Route path="/personal-blog/contact">
             <Contact />
           </Route>
-          <Route exact path="/">
-            <Home />
+          <Route exact path="/personal-blog">
+            <Home posts={this.state.posts} />
           </Route>
-          <Route path="/singlepost/:id" component={SinglePost}></Route>
+          <Route
+            path="/personal-blog/singlepost/:id"
+            render={(props) => (
+              <SinglePost {...props} displayPost={this.displayPost} />
+            )}
+          ></Route>
+          <Route path="/personal-blog/add-post">
+            <AddPost addPost={this.addPost} />
+          </Route>
         </Switch>
-      </div>
-      <div id="ftco-loader" class="show fullscreen" ref={elRef}>
-        <svg class="circular" width="48px" height="48px">
-          <circle
-            class="path-bg"
-            cx="24"
-            cy="24"
-            r="22"
-            fill="none"
-            stroke-width="4"
-            stroke="#eeeeee"
-          />
-          <circle
-            class="path"
-            cx="24"
-            cy="24"
-            r="22"
-            fill="none"
-            stroke-width="4"
-            stroke-miterlimit="10"
-            stroke="#F96D00"
-          />
-        </svg>
-      </div>
-    </BrowserRouter>
-  );
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;

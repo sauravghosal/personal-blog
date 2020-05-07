@@ -5,25 +5,26 @@ const Post = (props) => {
   return (
     <div className="col-md-12">
       <div className="blog-entry ftco-animate d-md-flex fadeInUp ftco-animated">
-        <Link to={"/singlepost/" + props.post.id}>
-          <a
-            href="single.html"
-            className="img img-2"
-            style={{ backgroundImage: `url(${props.post.image})` }}
-          ></a>
-        </Link>
+        <a
+          className="img img-2"
+          style={{ backgroundImage: `url(${props.post.image})` }}
+        ></a>
         <div className="text text-2 pl-md-4">
           <h3 className="mb-2">
-            <a href="single.html">{props.post.title}</a>
+            <Link to={"personal-blog/singlepost/" + props.post._id}>
+              <a href="single.html">{props.post.title}</a>
+            </Link>
           </h3>
           <div className="meta-wrap">
             <p className="meta">
               <span>
                 <i className="icon-calendar mr-2"></i>
-                {props.post.date}
+                {props.post.date !== undefined
+                  ? props.post.date.toString()
+                  : "No Date Provided"}
               </span>
               <span>
-                <a href="single.html">
+                <a>
                   <i className="icon-folder-o mr-2"></i>
                   {props.post.category}
                 </a>
@@ -36,7 +37,7 @@ const Post = (props) => {
           </div>
           <p className="mb-4">{props.post.description}</p>
           <p>
-            <Link to={"/singlepost/" + props.post.id}>
+            <Link to={"personal-blog/singlepost/" + props.post._id}>
               <a className="btn-custom">
                 Read More
                 <span className="ion-ios-arrow-forward"></span>
