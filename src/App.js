@@ -16,16 +16,17 @@ import {
   AnonymousCredential,
   RemoteMongoClient,
 } from "mongodb-stitch-browser-sdk";
+import { ObjectId } from "mongodb";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      comments: [],
+      loading: true,
       posts: [],
     };
 
-    this.addComment = this.addComment.bind(this);
+    // this.addComment = this.addComment.bind(this);
     this.displayPosts = this.displayPosts.bind(this);
     this.displayPost = this.displayPost.bind(this);
     this.addPost = this.addPost.bind(this);
@@ -45,16 +46,18 @@ class App extends React.Component {
   }
 
   // displaying particular blog post
-  displayPost(id) {
+  async displayPost(id) {
     // query the remote DB and update the component state
-    this.db
-      .collection("posts")
-      .find({}, { _id: id })
-      .asArray()
-      .then((post) => {
-        console.log(post);
-        return post;
-      });
+    return new Promise((resolve, reject) => {
+      console.log(id);
+      this.db
+        .collection("posts")
+        .findOne({ _id: ObjectId(id) })
+        .then((post) => {
+          console.log(post);
+          resolve(post);
+        });
+    });
   }
 
   // getting all blog posts and displaying snippets
@@ -65,7 +68,6 @@ class App extends React.Component {
       .find({}, { limit: 1000 })
       .asArray()
       .then((posts) => {
-        console.log(posts);
         this.setState({ posts });
       });
   }
@@ -114,13 +116,13 @@ class App extends React.Component {
       .catch(console.error);
   }
 
-  addComment() {
-    // Anonymously log in and display comments on load
-    this.client.auth
-      .loginWithCredential(new AnonymousCredential())
-      .then(this.displayComments)
-      .catch(console.error);
-  }
+  // addComment() {
+  //   // Anonymously log in and display comments on load
+  //   this.client.auth
+  //     .loginWithCredential(new AnonymousCredential())
+  //     .then(this.displayComments)
+  //     .catch(console.error);
+  // }
 
   render() {
     return (
@@ -137,7 +139,7 @@ class App extends React.Component {
             <Home posts={this.state.posts} />
           </Route>
           <Route
-            path="/personal-blog/singlepost/:id"
+            path="/personal-blog/singlepost"
             render={(props) => (
               <SinglePost {...props} displayPost={this.displayPost} />
             )}

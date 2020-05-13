@@ -1,552 +1,389 @@
 import React from "react";
 import "../css/style.css";
 import Comment from "../components/Comment";
+import queryString from "query-string";
+import Loader from "../components/Loader";
+import author from "../images/author.png";
 
 const SinglePost = (props) => {
+  // query database for post id on load
   const [post, setPost] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    setPost(props.displayPost(props.match.params.id));
+    // fetch all post data asynchronously
+    async function fetchPostData() {
+      const values = queryString.parse(props.location.search);
+      const post = await props.displayPost(values.postid);
+      setPost(post);
+      setLoading(false);
+      // const fetcher = await window.fetch(/some/deinnopt);
+      // const response = await fetcher.json();
+      // setData(response);
+      // setIsLoading(false);
+    }
+    fetchPostData();
   }, []);
 
   return (
     <div id="colorlib-main">
-      {console.log(post)}
-      <section class="ftco-section ftco-no-pt ftco-no-pb">
-        <div class="container">
-          <div class="row d-flex">
-            <div class="col-lg-8 px-md-5 py-5">
-              <div class="row pt-md-4">
-                <h1 class="mb-3">{props.title}</h1>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Reiciendis, eius mollitia suscipit, quisquam doloremque
-                  distinctio perferendis et doloribus unde architecto optio
-                  laboriosam porro adipisci sapiente officiis nemo accusamus ad
-                  praesentium? Esse minima nisi et. Dolore perferendis, enim
-                  praesentium omnis, iste doloremque quia officia optio deserunt
-                  molestiae voluptates soluta architecto tempora.
-                </p>
-                <p>
-                  <img src="images/image_1.jpg" alt="" class="img-fluid" />
-                </p>
-                <p>
-                  Molestiae cupiditate inventore animi, maxime sapiente optio,
-                  illo est nemo veritatis repellat sunt doloribus nesciunt!
-                  Minima laborum magni reiciendis qui voluptate quisquam
-                  voluptatem soluta illo eum ullam incidunt rem assumenda
-                  eveniet eaque sequi deleniti tenetur dolore amet fugit
-                  perspiciatis ipsa, odit. Nesciunt dolor minima esse vero ut
-                  ea, repudiandae suscipit!
-                </p>
-                <h2 class="mb-3 mt-5">#2. Creative WordPress Themes</h2>
-                <p>
-                  Temporibus ad error suscipit exercitationem hic molestiae
-                  totam obcaecati rerum, eius aut, in. Exercitationem atque
-                  quidem tempora maiores ex architecto voluptatum aut officia
-                  doloremque. Error dolore voluptas, omnis molestias odio
-                  dignissimos culpa ex earum nisi consequatur quos odit quasi
-                  repellat qui officiis reiciendis incidunt hic non? Debitis
-                  commodi aut, adipisci.
-                </p>
-                <p>
-                  <img src="images/image_2.jpg" alt="" class="img-fluid" />
-                </p>
-                <p>
-                  Quisquam esse aliquam fuga distinctio, quidem delectus
-                  veritatis reiciendis. Nihil explicabo quod, est eos ipsum.
-                  Unde aut non tenetur tempore, nisi culpa voluptate maiores
-                  officiis quis vel ab consectetur suscipit veritatis nulla quos
-                  quia aspernatur perferendis, libero sint. Error, velit, porro.
-                  Deserunt minus, quibusdam iste enim veniam, modi rem maiores.
-                </p>
-                <p>
-                  Odit voluptatibus, eveniet vel nihil cum ullam dolores
-                  laborum, quo velit commodi rerum eum quidem pariatur! Quia
-                  fuga iste tenetur, ipsa vel nisi in dolorum consequatur,
-                  veritatis porro explicabo soluta commodi libero voluptatem
-                  similique id quidem? Blanditiis voluptates aperiam non magni.
-                  Reprehenderit nobis odit inventore, quia laboriosam harum
-                  excepturi ea.
-                </p>
-                <p>
-                  Adipisci vero culpa, eius nobis soluta. Dolore, maxime ullam
-                  ipsam quidem, dolor distinctio similique asperiores voluptas
-                  enim, exercitationem ratione aut adipisci modi quod quibusdam
-                  iusto, voluptates beatae iure nemo itaque laborum.
-                  Consequuntur et pariatur totam fuga eligendi vero dolorum
-                  provident. Voluptatibus, veritatis. Beatae numquam nam ab
-                  voluptatibus culpa, tenetur recusandae!
-                </p>
-                <p>
-                  Voluptas dolores dignissimos dolorum temporibus, autem aliquam
-                  ducimus at officia adipisci quasi nemo a perspiciatis
-                  provident magni laboriosam repudiandae iure iusto commodi
-                  debitis est blanditiis alias laborum sint dolore. Dolores,
-                  iure, reprehenderit. Error provident, pariatur cupiditate
-                  soluta doloremque aut ratione. Harum voluptates mollitia illo
-                  minus praesentium, rerum ipsa debitis, inventore?
-                </p>
-                <div class="tag-widget post-tag-container mb-5 mt-5">
-                  <div class="tagcloud">
-                    <a href="#" class="tag-cloud-link">
-                      Life
-                    </a>
-                    <a href="#" class="tag-cloud-link">
-                      Sport
-                    </a>
-                    <a href="#" class="tag-cloud-link">
-                      Tech
-                    </a>
-                    <a href="#" class="tag-cloud-link">
-                      Travel
-                    </a>
+      {loading ? (
+        <Loader />
+      ) : (
+        <section className="ftco-section ftco-no-pt ftco-no-pb">
+          <div className="container">
+            <div className="row d-flex">
+              <div className="col-lg-8 px-md-5 py-5">
+                <div
+                  className="row pt-md-4"
+                  style={{ marginLeft: "20px", marginRight: "20px" }}
+                >
+                  <h1 class="mb-3" style={{ width: "100%" }}>
+                    {post.title}
+                  </h1>
+                  <p style={{ width: "100%" }}>{post.description}</p>
+                  <p style={{ width: "100%" }}>
+                    <img src={post.image} alt="" class="img-fluid" />
+                  </p>
+                  <p style={{ width: "100%" }}>{post.content}</p>
+                  <div class="tag-widget post-tag-container mb-5 mt-5">
+                    <div class="tagcloud">
+                      <a href="#" class="tag-cloud-link">
+                        Life
+                      </a>
+                      <a href="#" class="tag-cloud-link">
+                        Sport
+                      </a>
+                      <a href="#" class="tag-cloud-link">
+                        Tech
+                      </a>
+                      <a href="#" class="tag-cloud-link">
+                        Travel
+                      </a>
+                    </div>
+                  </div>
+                  <div className="about-author d-flex p-4 bg-light">
+                    <div className="bio mr-5">
+                      <img
+                        src={author}
+                        alt="author"
+                        className="img-fluid mb-4"
+                      />
+                    </div>
+                    <div className="desc">
+                      <h3>{post.author}</h3>
+                      <p>
+                        Saurav Ghosal is a second-year student attending Georgia
+                        Tech. He's taking this blog as an low-stakes opportunity
+                        to put his technical skills to the test, while
+                        developing his writing/communication abilities. Hope you
+                        enjoy!
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pt-5 mt-5">
+                    <h3 className="mb-5 font-weight-bold">2 Comments</h3>
+                    <ul className="comment-list">
+                      <Comment />
+                      <Comment />
+                    </ul>
+
+                    <div className="comment-form-wrap pt-5">
+                      <h3 className="mb-5">Leave a comment</h3>
+                      <form action="#" className="p-3 p-md-5 bg-light">
+                        <div className="form-group">
+                          <label for="name">Name *</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="name"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label for="email">Email *</label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            id="email"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label for="website">Website</label>
+                          <input
+                            type="url"
+                            className="form-control"
+                            id="website"
+                          />
+                        </div>
+
+                        <div className="form-group">
+                          <label for="message">Message</label>
+                          <textarea
+                            name=""
+                            id="message"
+                            cols="30"
+                            rows="10"
+                            className="form-control"
+                          ></textarea>
+                        </div>
+                        <div className="form-group">
+                          <input
+                            type="submit"
+                            value="Post Comment"
+                            className="btn py-3 px-4 btn-primary"
+                          />
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
-
-                <div class="about-author d-flex p-4 bg-light">
-                  <div class="bio mr-5">
-                    <img
-                      src="../images/person_1.jpg"
-                      alt="Image placeholder"
-                      class="img-fluid mb-4"
-                    />
-                  </div>
-                  <div class="desc">
-                    <h3>George Washington</h3>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                      Ducimus itaque, autem necessitatibus voluptate quod
-                      mollitia delectus aut, sunt placeat nam vero culpa
-                      sapiente consectetur similique, inventore eos fugit
-                      cupiditate numquam!
-                    </p>
-                  </div>
+              </div>
+              <div className="col-lg-4 sidebar ftco-animate bg-light pt-5">
+                <div className="sidebar-box pt-md-4">
+                  <form action="#" className="search-form">
+                    <div className="form-group">
+                      <span className="icon icon-search"></span>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Type a keyword and hit enter"
+                      />
+                    </div>
+                  </form>
                 </div>
-
-                <div class="pt-5 mt-5">
-                  <h3 class="mb-5 font-weight-bold">6 Comments</h3>
-                  <ul class="comment-list">
-                    <Comment />
-
-                    <li class="comment">
-                      <div class="vcard bio">
-                        <img
-                          src="../images/person_1.jpg"
-                          alt="Image placeholder"
-                        />
-                      </div>
-                      <div class="comment-body">
-                        <h3>John Doe</h3>
-                        <div class="meta">October 03, 2018 at 2:21pm</div>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Pariatur quidem laborum necessitatibus, ipsam
-                          impedit vitae autem, eum officia, fugiat saepe enim
-                          sapiente iste iure! Quam voluptas earum impedit
-                          necessitatibus, nihil?
-                        </p>
-                        <p>
-                          <a href="#" class="reply">
-                            Reply
-                          </a>
-                        </p>
-                      </div>
-
-                      <ul class="children">
-                        <li class="comment">
-                          <div class="vcard bio">
-                            <img
-                              src="images/person_1.jpg"
-                              alt="Image placeholder"
-                            />
-                          </div>
-                          <div class="comment-body">
-                            <h3>John Doe</h3>
-                            <div class="meta">October 03, 2018 at 2:21pm</div>
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur
-                              adipisicing elit. Pariatur quidem laborum
-                              necessitatibus, ipsam impedit vitae autem, eum
-                              officia, fugiat saepe enim sapiente iste iure!
-                              Quam voluptas earum impedit necessitatibus, nihil?
-                            </p>
-                            <p>
-                              <a href="#" class="reply">
-                                Reply
-                              </a>
-                            </p>
-                          </div>
-
-                          <ul class="children">
-                            <li class="comment">
-                              <div class="vcard bio">
-                                <img
-                                  src="../images/person_1.jpg"
-                                  alt="Image placeholder"
-                                />
-                              </div>
-                              <div class="comment-body">
-                                <h3>John Doe</h3>
-                                <div class="meta">
-                                  October 03, 2018 at 2:21pm
-                                </div>
-                                <p>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipisicing elit. Pariatur quidem laborum
-                                  necessitatibus, ipsam impedit vitae autem, eum
-                                  officia, fugiat saepe enim sapiente iste iure!
-                                  Quam voluptas earum impedit necessitatibus,
-                                  nihil?
-                                </p>
-                                <p>
-                                  <a href="#" class="reply">
-                                    Reply
-                                  </a>
-                                </p>
-                              </div>
-
-                              <ul class="children">
-                                <li class="comment">
-                                  <div class="vcard bio">
-                                    <img
-                                      src="images/person_1.jpg"
-                                      alt="Image placeholder"
-                                    />
-                                  </div>
-                                  <div class="comment-body">
-                                    <h3>John Doe</h3>
-                                    <div class="meta">
-                                      October 03, 2018 at 2:21pm
-                                    </div>
-                                    <p>
-                                      Lorem ipsum dolor sit amet, consectetur
-                                      adipisicing elit. Pariatur quidem laborum
-                                      necessitatibus, ipsam impedit vitae autem,
-                                      eum officia, fugiat saepe enim sapiente
-                                      iste iure! Quam voluptas earum impedit
-                                      necessitatibus, nihil?
-                                    </p>
-                                    <p>
-                                      <a href="#" class="reply">
-                                        Reply
-                                      </a>
-                                    </p>
-                                  </div>
-                                </li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
+                <div className="sidebar-box ftco-animate">
+                  <h3 className="sidebar-heading">Categories</h3>
+                  <ul className="categories">
+                    <li>
+                      <a href="#">
+                        Fashion <span>(6)</span>
+                      </a>
                     </li>
-
-                    <li class="comment">
-                      <div class="vcard bio">
-                        <img
-                          src="images/person_1.jpg"
-                          alt="Image placeholder"
-                        />
-                      </div>
-                      <div class="comment-body">
-                        <h3>John Doe</h3>
-                        <div class="meta">October 03, 2018 at 2:21pm</div>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Pariatur quidem laborum necessitatibus, ipsam
-                          impedit vitae autem, eum officia, fugiat saepe enim
-                          sapiente iste iure! Quam voluptas earum impedit
-                          necessitatibus, nihil?
-                        </p>
-                        <p>
-                          <a href="#" class="reply">
-                            Reply
-                          </a>
-                        </p>
-                      </div>
+                    <li>
+                      <a href="#">
+                        Technology <span>(8)</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        Travel <span>(2)</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        Food <span>(2)</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        Photography <span>(7)</span>
+                      </a>
                     </li>
                   </ul>
-
-                  <div class="comment-form-wrap pt-5">
-                    <h3 class="mb-5">Leave a comment</h3>
-                    <form action="#" class="p-3 p-md-5 bg-light">
-                      <div class="form-group">
-                        <label for="name">Name *</label>
-                        <input type="text" class="form-control" id="name" />
-                      </div>
-                      <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" class="form-control" id="email" />
-                      </div>
-                      <div class="form-group">
-                        <label for="website">Website</label>
-                        <input type="url" class="form-control" id="website" />
-                      </div>
-
-                      <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea
-                          name=""
-                          id="message"
-                          cols="30"
-                          rows="10"
-                          class="form-control"
-                        ></textarea>
-                      </div>
-                      <div class="form-group">
-                        <input
-                          type="submit"
-                          value="Post Comment"
-                          class="btn py-3 px-4 btn-primary"
-                        />
-                      </div>
-                    </form>
-                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-lg-4 sidebar ftco-animate bg-light pt-5">
-              <div class="sidebar-box pt-md-4">
-                <form action="#" class="search-form">
-                  <div class="form-group">
-                    <span class="icon icon-search"></span>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Type a keyword and hit enter"
-                    />
-                  </div>
-                </form>
-              </div>
-              <div class="sidebar-box ftco-animate">
-                <h3 class="sidebar-heading">Categories</h3>
-                <ul class="categories">
-                  <li>
-                    <a href="#">
-                      Fashion <span>(6)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Technology <span>(8)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Travel <span>(2)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Food <span>(2)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Photography <span>(7)</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
 
-              <div class="sidebar-box ftco-animate">
-                <h3 class="sidebar-heading">Popular Articles</h3>
-                <div class="block-21 mb-4 d-flex">
-                  <a
-                    class="blog-img mr-4"
-                    style={{ backgroundImage: "url(images/image_1.jpg)" }}
-                  ></a>
-                  <div class="text">
-                    <h3 class="heading">
-                      <a href="#">
-                        Even the all-powerful Pointing has no control
-                      </a>
-                    </h3>
-                    <div class="meta">
-                      <div>
+                <div className="sidebar-box ftco-animate">
+                  <h3 className="sidebar-heading">Popular Articles</h3>
+                  <div className="block-21 mb-4 d-flex">
+                    <a
+                      className="blog-img mr-4"
+                      style={{ backgroundImage: "url(images/image_1.jpg)" }}
+                    ></a>
+                    <div className="text">
+                      <h3 className="heading">
                         <a href="#">
-                          <span class="icon-calendar"></span> June 28, 2019
+                          Even the all-powerful Pointing has no control
                         </a>
+                      </h3>
+                      <div className="meta">
+                        <div>
+                          <a href="#">
+                            <span className="icon-calendar"></span> June 28,
+                            2019
+                          </a>
+                        </div>
+                        <div>
+                          <a href="#">
+                            <span className="icon-person"></span> Dave Lewis
+                          </a>
+                        </div>
+                        <div>
+                          <a href="#">
+                            <span className="icon-chat"></span> 19
+                          </a>
+                        </div>
                       </div>
-                      <div>
+                    </div>
+                  </div>
+                  <div className="block-21 mb-4 d-flex">
+                    <a
+                      className="blog-img mr-4"
+                      style={{ backgroundImage: "url(images/image_2.jpg)" }}
+                    ></a>
+                    <div className="text">
+                      <h3 className="heading">
                         <a href="#">
-                          <span class="icon-person"></span> Dave Lewis
+                          Even the all-powerful Pointing has no control
                         </a>
+                      </h3>
+                      <div className="meta">
+                        <div>
+                          <a href="#">
+                            <span className="icon-calendar"></span> June 28,
+                            2019
+                          </a>
+                        </div>
+                        <div>
+                          <a href="#">
+                            <span className="icon-person"></span> Dave Lewis
+                          </a>
+                        </div>
+                        <div>
+                          <a href="#">
+                            <span className="icon-chat"></span> 19
+                          </a>
+                        </div>
                       </div>
-                      <div>
+                    </div>
+                  </div>
+                  <div className="block-21 mb-4 d-flex">
+                    <a
+                      className="blog-img mr-4"
+                      style={{ backgroundImage: "url(images/image_3.jpg)" }}
+                    ></a>
+                    <div className="text">
+                      <h3 className="heading">
                         <a href="#">
-                          <span class="icon-chat"></span> 19
+                          Even the all-powerful Pointing has no control
                         </a>
+                      </h3>
+                      <div className="meta">
+                        <div>
+                          <a href="#">
+                            <span className="icon-calendar"></span> June 28,
+                            2019
+                          </a>
+                        </div>
+                        <div>
+                          <a href="#">
+                            <span className="icon-person"></span> Dave Lewis
+                          </a>
+                        </div>
+                        <div>
+                          <a href="#">
+                            <span className="icon-chat"></span> 19
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="block-21 mb-4 d-flex">
-                  <a
-                    class="blog-img mr-4"
-                    style={{ backgroundImage: "url(images/image_2.jpg)" }}
-                  ></a>
-                  <div class="text">
-                    <h3 class="heading">
-                      <a href="#">
-                        Even the all-powerful Pointing has no control
-                      </a>
-                    </h3>
-                    <div class="meta">
-                      <div>
-                        <a href="#">
-                          <span class="icon-calendar"></span> June 28, 2019
-                        </a>
-                      </div>
-                      <div>
-                        <a href="#">
-                          <span class="icon-person"></span> Dave Lewis
-                        </a>
-                      </div>
-                      <div>
-                        <a href="#">
-                          <span class="icon-chat"></span> 19
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+
+                <div className="sidebar-box ftco-animate">
+                  <h3 className="sidebar-heading">Tag Cloud</h3>
+                  <ul className="tagcloud">
+                    <a href="#" className="tag-cloud-link">
+                      animals
+                    </a>
+                    <a href="#" className="tag-cloud-link">
+                      human
+                    </a>
+                    <a href="#" className="tag-cloud-link">
+                      people
+                    </a>
+                    <a href="#" className="tag-cloud-link">
+                      cat
+                    </a>
+                    <a href="#" className="tag-cloud-link">
+                      dog
+                    </a>
+                    <a href="#" className="tag-cloud-link">
+                      nature
+                    </a>
+                    <a href="#" className="tag-cloud-link">
+                      leaves
+                    </a>
+                    <a href="#" className="tag-cloud-link">
+                      food
+                    </a>
+                  </ul>
                 </div>
-                <div class="block-21 mb-4 d-flex">
-                  <a
-                    class="blog-img mr-4"
-                    style={{ backgroundImage: "url(images/image_3.jpg)" }}
-                  ></a>
-                  <div class="text">
-                    <h3 class="heading">
-                      <a href="#">
-                        Even the all-powerful Pointing has no control
-                      </a>
-                    </h3>
-                    <div class="meta">
-                      <div>
-                        <a href="#">
-                          <span class="icon-calendar"></span> June 28, 2019
-                        </a>
-                      </div>
-                      <div>
-                        <a href="#">
-                          <span class="icon-person"></span> Dave Lewis
-                        </a>
-                      </div>
-                      <div>
-                        <a href="#">
-                          <span class="icon-chat"></span> 19
-                        </a>
-                      </div>
+
+                <div
+                  className="sidebar-box subs-wrap img"
+                  style={{ backgroundImage: "url(images/bg_1.jpg)" }}
+                >
+                  <div className="overlay"></div>
+                  <h3 className="mb-4 sidebar-heading">Newsletter</h3>
+                  <p className="mb-4">
+                    Far far away, behind the word mountains, far from the
+                    countries Vokalia
+                  </p>
+                  <form action="#" className="subscribe-form">
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Email Address"
+                      />
+                      <input
+                        type="submit"
+                        value="Subscribe"
+                        className="mt-2 btn btn-white submit"
+                      />
                     </div>
-                  </div>
+                  </form>
                 </div>
-              </div>
 
-              <div class="sidebar-box ftco-animate">
-                <h3 class="sidebar-heading">Tag Cloud</h3>
-                <ul class="tagcloud">
-                  <a href="#" class="tag-cloud-link">
-                    animals
-                  </a>
-                  <a href="#" class="tag-cloud-link">
-                    human
-                  </a>
-                  <a href="#" class="tag-cloud-link">
-                    people
-                  </a>
-                  <a href="#" class="tag-cloud-link">
-                    cat
-                  </a>
-                  <a href="#" class="tag-cloud-link">
-                    dog
-                  </a>
-                  <a href="#" class="tag-cloud-link">
-                    nature
-                  </a>
-                  <a href="#" class="tag-cloud-link">
-                    leaves
-                  </a>
-                  <a href="#" class="tag-cloud-link">
-                    food
-                  </a>
-                </ul>
-              </div>
+                <div className="sidebar-box ftco-animate">
+                  <h3 className="sidebar-heading">Archives</h3>
+                  <ul className="categories">
+                    <li>
+                      <a href="#">
+                        December 2018 <span>(10)</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        September 2018 <span>(6)</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        August 2018 <span>(8)</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        July 2018 <span>(2)</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        June 2018 <span>(7)</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        May 2018 <span>(5)</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
 
-              <div
-                class="sidebar-box subs-wrap img"
-                style={{ backgroundImage: "url(images/bg_1.jpg)" }}
-              >
-                <div class="overlay"></div>
-                <h3 class="mb-4 sidebar-heading">Newsletter</h3>
-                <p class="mb-4">
-                  Far far away, behind the word mountains, far from the
-                  countries Vokalia
-                </p>
-                <form action="#" class="subscribe-form">
-                  <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Email Address"
-                    />
-                    <input
-                      type="submit"
-                      value="Subscribe"
-                      class="mt-2 btn btn-white submit"
-                    />
-                  </div>
-                </form>
-              </div>
-
-              <div class="sidebar-box ftco-animate">
-                <h3 class="sidebar-heading">Archives</h3>
-                <ul class="categories">
-                  <li>
-                    <a href="#">
-                      December 2018 <span>(10)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      September 2018 <span>(6)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      August 2018 <span>(8)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      July 2018 <span>(2)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      June 2018 <span>(7)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      May 2018 <span>(5)</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="sidebar-box ftco-animate">
-                <h3 class="sidebar-heading">Paragraph</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Ducimus itaque, autem necessitatibus voluptate quod mollitia
-                  delectus aut.
-                </p>
+                <div className="sidebar-box ftco-animate">
+                  <h3 className="sidebar-heading">Paragraph</h3>
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Ducimus itaque, autem necessitatibus voluptate quod mollitia
+                    delectus aut.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import React from "react";
-
+import author from "../images/author.png";
 const Comment = (props) => {
   return (
     <li className="comment">
       <div className="vcard bio">
-        <img src="../images/person_1.jpg" alt="Image placeholder" />
+        <img src={author} alt="Image placeholder" />
       </div>
       <div className="comment-body">
         <h3>John Doe</h3>
